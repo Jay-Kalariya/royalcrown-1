@@ -92,9 +92,7 @@ const Page = () => {
     if (selectedTag !== "all") params.set("tag", selectedTag);
     if (pageNumber !== 1) params.set("page", pageNumber);
 
-    router.push(`?${params.toString()}`,
-    //  { scroll: false }
-  );
+    router.push(`?${params.toString()}`, { scroll: false });
   };
   useEffect(() => {
     updateQueryParams();
@@ -224,38 +222,6 @@ const Page = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-
-  useEffect(() => {
-  const isBack = sessionStorage.getItem("backFromProduct");
-
-  if (isBack) {
-    const savedFilters = JSON.parse(sessionStorage.getItem("productFilters"));
-
-    if (savedFilters) {
-      setSelectedBrand(savedFilters.brand || "all");
-      setSelectedType(savedFilters.type || "all");
-      setSelectedCategory(savedFilters.category || []);
-      setSelectedFinish(savedFilters.finish || "all");
-      setSelectedSize(savedFilters.size || "all");
-      setSelectedThickness(savedFilters.thickness || "all");
-      setSelectedColor(savedFilters.color || "all");
-      setSelectedTag(savedFilters.tag || "all");
-      setSearchTerm(savedFilters.search || "");
-      setPageNumber(savedFilters.page || 1);
-      setActiveTab(savedFilters.tab || "");
-    }
-
-    sessionStorage.removeItem("backFromProduct"); // Only use once
-  }
-}, []);
-useEffect(() => {
-  if (performance.navigation.type === 1) {
-    // Page was refreshed
-    sessionStorage.removeItem("productFilters");
-    sessionStorage.removeItem("backFromProduct");
-  }
-}, []);
-
   const categories = [
     { label: "Plain Colour", value: "Plain Colour" },
     { label: "Abstract", value: "Abstracts" },
@@ -338,9 +304,6 @@ useEffect(() => {
       });
     }
   };
-
-
-  
   const handleSearchChange = (event) => {
     event.preventDefault(); // Prevent default behavior
     setSearchTerm(event.target.value);
@@ -849,34 +812,18 @@ useEffect(() => {
                         className="ProductImage"
                         width={500}
                         height={600}
-                       
+                        onClick={() => {
+                          const currentQuery = window.location.search; // e.g. ?brand=Royal&page=5...
+                          // sessionStorage.setItem("fromDetailPage", "true");
+                          // Save current full URL with query params in session
+                          sessionStorage.setItem("fromDetailPage", "true");
+                          sessionStorage.setItem("returnToProductURL", window.location.href);
+                          router.push(`/product-information${currentQuery}#${product.id}`);
+                        }}
                       // onClick={() => {
                       //   console.log("Product ID:", product.id);
                       //   router.push(`/product-information#${product.id}`);
                       // }}
-                      onClick={() => {
-  // Save current state
-  const currentFilters = {
-    brand: selectedBrand,
-    type: selectedType,
-    category: selectedCategory,
-    finish: selectedFinish,
-    size: selectedSize,
-    thickness: selectedThickness,
-    color: selectedColor,
-    tag: selectedTag,
-    tab: activeTab,
-    page: pageNumber,
-    search: searchTerm,
-  };
-
-  sessionStorage.setItem("productFilters", JSON.stringify(currentFilters));
-  sessionStorage.setItem("backFromProduct", "true");
-
-  // Navigate to product info
-  router.push(`/product-information#${product.id}`);
-}}
-
                       />
                       <div className="overlay">
                         <div>
