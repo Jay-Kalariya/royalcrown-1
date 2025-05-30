@@ -749,23 +749,9 @@ const Page = () => {
                         width={500}
                         height={600}
                         onClick={() => {
-<<<<<<< HEAD
-                          const currentQuery = window.location.search; // e.g. ?brand=Royal&page=5...
-                          // sessionStorage.setItem("fromDetailPage", "true");
-                          // Save current full URL with query params in session
-                          sessionStorage.setItem("fromDetailPage", "true");
-                          sessionStorage.setItem("returnToProductURL", window.location.href);
-                          router.push(`/product-information${currentQuery}#${product.id}`);
-                        }}
-                      // onClick={() => {
-                      //   console.log("Product ID:", product.id);
-                      //   router.push(`/product-information#${product.id}`);
-                      // }}
-=======
                           console.log("Product ID:", product.id);
                           router.push(`/product-information#${product.id}`);
                         }}
->>>>>>> 625f01b1c3891b1031055474c8c266919788f669
                       />
                       <div className="overlay">
                         <div>
