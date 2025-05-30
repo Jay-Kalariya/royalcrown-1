@@ -338,6 +338,9 @@ useEffect(() => {
       });
     }
   };
+
+
+  
   const handleSearchChange = (event) => {
     event.preventDefault(); // Prevent default behavior
     setSearchTerm(event.target.value);
